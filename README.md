@@ -4,9 +4,9 @@ CMake AST
 Status
 ------
 
-| Travis CI (Ubuntu) | AppVeyor (Windows) | Coverage | PyPI |
-|--------------------|--------------------|----------|------|
-|[![Travis](https://travis-ci.org/polysquare/cmake-ast.svg?branch=master)](https://travis-ci.org/polysquare/cmake-ast)|[![AppVeyor](https://ci.appveyor.com/api/projects/status/o6nnt968qyr2kitx?svg=true)](https://ci.appveyor.com/project/smspillaz/cmake-ast)|[![Coverage](https://coveralls.io/repos/polysquare/cmake-ast/badge.png?branch=master)](https://coveralls.io/r/polysquare/cmake-ast?branch=master)|[![PyPI](https://pypip.in/version/cmakeast/badge.svg)](https://pypi.python.org/pypi/cmakeast/)|
+| Travis CI (Ubuntu) | AppVeyor (Windows) | Coverage | PyPI | Licence |
+|--------------------|--------------------|----------|------|---------|
+|[![Travis](https://img.shields.io/travis/polysquare/cmake-ast.svg)](http://travis-ci.org/polysquare/cmake-ast)|[![AppVeyor](https://img.shields.io/appveyor/ci/smspillaz/cmake-ast.svg)](https://ci.appveyor.com/project/smspillaz/cmake-ast)|[![Coveralls](https://img.shields.io/coveralls/polysquare/cmake-ast.svg)](http://coveralls.io/polysquare/cmake-ast)|[![PyPIVersion](https://img.shields.io/pypi/v/cmake-ast.svg)](https://pypi.python.org/pypi/cmake-ast)[![PyPIPythons](https://img.shields.io/pypi/pyversions/cmake-ast.svg)](https://pypi.python.org/pypi/cmake-ast)|[![License](https://img.shields.io/github/license/polysquare/cmake-ast.svg)](http://github.com/polysquare/cmake-ast)|
 
 `cmake-ast` has been tested against every single CMake module that ships with
 recent versions of CMake. These tests also run in the continuous integration
@@ -22,51 +22,62 @@ by tokenization with the `tokens` keyword argument. The return will be a
 toplevel node, with node descriptions as follows:
 
 `Word`
+
 - (One) `Type`
-  * `type: Variable | String | Number | CompoundLiteral | VariableDereference`
+  `type: Variable | String | Number | CompoundLiteral | VariableDereference`
 - (One) `String` `contents`
 
 `Body`
+
 - (Many) (`FunctionCall`, `IfStatement`, `ForeachStatement`, `WhileStatement`)
 
 `FunctionCall`
+
 - (One) `Word` `name`
 - (Many) `Word` `arguments`
 
 `FunctionDefinition`
+
 - (One) `FunctionCall` `header`
 - (One) `Body` `body`
 - (One) `FunctionCall` `footer`
 
 `MacroDefinition`
+
 - (One) `FunctionCall` `header`
 - (One) `Body` `body`
 - (One) `FunctionCall` `footer`
 
 `IfStatement`
+
 - (One) `FunctionCall` `header`
 - (One) `Body` `body`
 
 `ElseIfStatement`
+
 - (One) `FunctionCall` `header`
 - (One) `Body` `body`
 
 `ElseStatement`
+
 - (One) `FunctionCall` `header`
 - (One) `Body` `body`
 
 `IfBlock`
+
 - (One) `IfStatement` `if_statement`
 - (Many) `ElseIfStatement` `else_ifs`
 - (One Optional) `ElseStatement` `else_statement`
 - (One) `FunctionCall` `footer`
 
 `ForeachStatement`
+
 - (One) `FunctionCall` `foreach_function`
 - (One) `Body` `body`
 - (One) `FunctionCall` `footer`
 
 `WhileStatement`
+
 - (One) `FunctionCall` `while_function`
 - (One) `Body` `body`
 - (One) `FunctionCall` `footer`
@@ -84,7 +95,6 @@ less verbose. It will traverse every single node by default. Listeners
 matching the signature `def handler (name, node, depth)` can be passed as
 the following keyword arguments to `recurse (body, **kwargs)`:
 
-------------------------------------------
 | Keyword         | Handles Node Type    |
 |:---------------:|:--------------------:|
 | `toplevel`      | `ToplevelBody`       |
@@ -110,9 +120,9 @@ Tokenization
 ------------
 
 To get an even lower level representation, use `cmakeast.ast.tokenize(contents)`
-which divides the file only into tokens. Tokens correspond as follows
+which divides the file only into tokens. Aliases are stored in the `TokenType`
+class in `ast`. Tokens correspond as follows:
 
---------------------------------------------------------------------
 | Token Type        | Description                                  |
 |:-----------------:|:--------------------------------------------:|
 | `QuotedLiteral`   | Something in quotes                          |
@@ -124,5 +134,3 @@ which divides the file only into tokens. Tokens correspond as follows
 | `RST`             | Documentation Comment                        |
 | `Comment`         | Comment                                      |
 | `UnquotedLiteral` | Any character sequence, punctuation included |
-
-Token type aliases are stored in the `TokenType` class in `ast`.

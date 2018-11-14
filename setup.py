@@ -2,14 +2,14 @@
 #
 # Installation and setup script for cmakeast
 #
-# See LICENCE.md for Copyright information
+# See /LICENCE.md for Copyright information
 """Installation and setup script for cmakeast."""
 
 from setuptools import find_packages, setup
 
 setup(name="cmakeast",
-      version="0.0.10",
-      description="Parse a CMake file into an Abstract Syntax Tree.",
+      version="0.0.17",
+      description="""Parse a CMake file into an Abstract Syntax Tree.""",
       long_description_markdown_filename="README.md",
       author="Sam Spilsbury",
       author_email="smspillaz@gmail.com",
@@ -27,15 +27,10 @@ setup(name="cmakeast",
       url="http://github.com/polysquare/cmake-ast",
       license="MIT",
       keywords="development ast cmake",
-      packages=find_packages(exclude=["tests"]),
+      packages=find_packages(exclude=["test"]),
       install_requires=["setuptools"],
       extras_require={
-          "test": ["coverage",
-                   "testtools",
-                   "shutilwhich",
-                   "nose",
-                   "nose-parameterized",
-                   "mock"]
+          "upload": ["setuptools-markdown"]
       },
       entry_points={
           "console_scripts": [

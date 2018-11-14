@@ -1,13 +1,8 @@
-# /tests/ast_test.py
+# /test/test_ast.py
 #
 # Test case for ast.parse
 #
-# Disable no-self-use in tests as all test methods must be
-# instance methods and we don't necessarily have to use a matcher
-# with them.
-# pylint:  disable=no-self-use
-#
-# See LICENCE.md for Copyright information
+# See /LICENCE.md for Copyright information
 """Test cmake-ast to check if the AST was matched properly."""
 
 from cmakeast import ast
@@ -29,8 +24,7 @@ def parse_for_word(string):
 
 
 class TestRepresentations(TestCase):
-
-    """__repr__ function on overriden named tuples."""
+    """__repr__ function on overridden named tuples."""
 
     def test_repr_word(self):
         """Test __repr__ on word shows type."""
@@ -46,8 +40,7 @@ class TestRepresentations(TestCase):
 
 
 class TestTokenizer(TestCase):
-
-    """Tokenizer."""
+    """Test case for tokenization functions."""
 
     @parameterized.expand([
         "#comment(\"message\")",
@@ -85,7 +78,6 @@ class TestTokenizer(TestCase):
 
 
 class TestParseGeneral(TestCase):
-
     """Thing common to all parses."""
 
     @parameterized.expand([
@@ -122,7 +114,6 @@ class TestParseGeneral(TestCase):
 
 
 class TestParseWord(TestCase):
-
     """Test case for parsing individual arguments."""
 
     def test_parse_single_word(self):
@@ -193,7 +184,7 @@ class TestParseWord(TestCase):
     def test_parse_quo_lit_type(self, quoted_string):
         """Parse a word from an argument and its type is String.
 
-        String types are any quoted_sequences of characters surrounded by
+        String types are any quoted sentences of characters surrounded by
         whitespace, parens or line endings
         """
         parse_result = parse_for_word(quoted_string)
@@ -213,7 +204,7 @@ class TestParseWord(TestCase):
         "\"\nMULTI\n# LINE\""  # Quote at end of line
     ])
     def test_parse_multiline_string(self, multiline_string):
-        """Parse a multiline string from an argument..
+        """Parse a multiline string from an argument.
 
         There should only be one argument to the passed function and its
         type should be string
@@ -255,7 +246,6 @@ class TestParseWord(TestCase):
 
 
 class TestParseFunctionCall(TestCase):
-
     """Test case for parsing function calls."""
 
     def test_parse_function_call(self):
@@ -281,18 +271,17 @@ class TestParseFunctionCall(TestCase):
                                    ast.Word))
 
 
-class TestParseBodyStatement(TestCase):  # pylint:disable=R0903
-
+# suppress(R0903,too-few-public-methods)
+class TestParseBodyStatement(TestCase):
     """Test parsing header/body statements generally."""
 
-    def test_body_syntax_error(self):
+    def test_body_syntax_error(self):  # suppress(no-self-use)
         """Syntax error reported where function call does not have parens."""
         with ExpectedException(RuntimeError, "Syntax Error"):
             ast.parse("function (func)\nendfunction")
 
 
 class TestParseForeachStatement(TestCase):
-
     """Test case for parsing foreach statements."""
 
     foreach_statement = """
@@ -331,7 +320,6 @@ class TestParseForeachStatement(TestCase):
 
 
 class TestParseWhileStatement(TestCase):
-
     """Test case for parsing while statements."""
 
     while_statement = """
@@ -370,7 +358,6 @@ class TestParseWhileStatement(TestCase):
 
 
 class TestParseFunctionDefintion(TestCase):
-
     """Test case for parsing function definitions."""
 
     function_definition = """
@@ -409,7 +396,6 @@ class TestParseFunctionDefintion(TestCase):
 
 
 class TestParseMacroDefintion(TestCase):
-
     """Test case for parsing macro definitions."""
 
     macro_definition = """
@@ -448,8 +434,7 @@ class TestParseMacroDefintion(TestCase):
 
 
 class TestParseIfBlock(TestCase):
-
-    """Test case for pasing if, else, else-if blocks."""
+    """Test case for passing if, else, else-if blocks."""
 
     if_else_if_block = """
     if (FOO)\n
